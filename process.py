@@ -2,18 +2,19 @@
 
 import sys
 
-if len(sys.argv) != 3:
-	print("You must provide exactly one parameter that is the file to read the data from.")
+if len(sys.argv) != 4:
+	print("You must provide exactly tree parameters.")
 	exit(1)
 
 fin = open(sys.argv[1], 'r')
 datain = eval(fin.read())
 fin.close()
 
-#print(data)
+dataout = open(sys.argv[2], 'w+')
+texout = open(sys.argv[3], 'w+')
 
-#months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-months = ['Jan', 'Feb', 'Mar', 'Apr']
+
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 data = {}
 hoursTot = 0
@@ -30,6 +31,8 @@ def calcRatio(proj,tot):
 	else:
 		return proj / tot
 
+dataout.write('Month Project_Hours Total_Hours Ext_Hours Ratio\n')
+
 for m in months:
 	i = i + 1
 	
@@ -39,25 +42,13 @@ for m in months:
 		tot = datain[m]['Hours_total']
 		proj = datain[m]['Hours_project']
 		
-		if 'Desc' in datain[m]:
-			data[i]['Desc'] = datain[m]['Desc']
-		else:
-			data[i]['Desc'] = ""
-	else:
-		tot = 0
-		proj = 0
-		data[i]['Desc'] = ""
-	
-	data[i]['tot'] = tot
-	data[i]['proj'] = proj
-	
-	data[i]['ratio'] = calcRatio(proj, tot)
-	
-	
-	hoursTot += data[i]['tot']
-	hoursProj += data[i]['proj']
+		ratio = calcRatio(proj, tot)
+		
+		hoursProj += proj
+		hoursTot  += tot
+		
+		dataout.write("%s %d %d %d %f\n" % (m, proj, tot, (tot-proj), ratio))
+		
+ratio = calcRatio(hoursProj, hoursTot)
 
-ratio = hoursProj / hoursTot
-
-print(data)
-print(ratio)
+texout.write('\\def\\totalratio{%f}\n' % ratio)
