@@ -14,7 +14,7 @@ dataout = open(sys.argv[2], 'w+')
 texout = open(sys.argv[3], 'w+')
 
 
-months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
 
 data = {}
 hoursTot = 0
@@ -31,7 +31,7 @@ def calcRatio(proj,tot):
 	else:
 		return proj / tot
 
-dataout.write('Month Project_Hours Total_Hours Ext_Hours Ratio\n')
+dataout.write('Month Month_idx Project_Hours Total_Hours Ext_Hours Ratio\n')
 
 for m in months:
 	i = i + 1
@@ -41,14 +41,19 @@ for m in months:
 	if m in datain:
 		tot = datain[m]['Hours_total']
 		proj = datain[m]['Hours_project']
+		desc = datain[m]['Desc']
 		
 		ratio = calcRatio(proj, tot)
 		
 		hoursProj += proj
 		hoursTot  += tot
 		
-		dataout.write("%s %d %d %d %f\n" % (m, proj, tot, (tot-proj), ratio))
+		dataout.write("%s %d %d %d %d %f\n" % (m, i, proj, tot, (tot-proj), (100*ratio)))
+		
+		texout.write('\\SetHours%s{%d}\\SetHoursExternal%s{%d}\\SetWork%s{%s} %% %d total\n' % (m, proj, m, (tot-proj), m, desc, tot))
 		
 ratio = calcRatio(hoursProj, hoursTot)
 
-texout.write('\\def\\totalratio{%f}\n' % ratio)
+texout.write('\\def\\totalhours{%d}\n' % (hoursTot))
+texout.write('\\def\\totalhoursproj{%d}\n' % (hoursProj))
+texout.write('\\def\\totalratio{%4.1f}\n' % (100*ratio))
