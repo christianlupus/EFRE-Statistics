@@ -1,0 +1,7 @@
+*.pdf
+*.aux
+*.log
+*.synctex
+*.synctex.gz
+import.tex
+output.data
