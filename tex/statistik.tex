@@ -1,0 +1,143 @@
+\documentclass[a4paper,10pt]{scrartcl}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,tikz,pgfplots,geometry}
+
+\pgfplotsset{compat=1.16}
+
+\def\SetHoursJan#1{}
+\def\SetHoursExternalJan#1{}
+\def\SetWorkJan#1{}
+
+\def\SetHoursFeb#1{}
+\def\SetHoursExternalFeb#1{}
+\def\SetWorkFeb#1{}
+
+\def\SetHoursMar#1{}
+\def\SetHoursExternalMar#1{}
+\def\SetWorkMar#1{}
+
+\def\SetHoursApr#1{}
+\def\SetHoursExternalApr#1{}
+\def\SetWorkApr#1{}
+
+\def\SetHoursMai#1{}
+\def\SetHoursExternalMai#1{}
+\def\SetWorkMai#1{}
+
+\def\SetHoursJun#1{}
+\def\SetHoursExternalJun#1{}
+\def\SetWorkJun#1{}
+
+\def\SetHoursJul#1{}
+\def\SetHoursExternalJul#1{}
+\def\SetWorkJul#1{}
+
+\def\SetHoursAug#1{}
+\def\SetHoursExternalAug#1{}
+\def\SetWorkAug#1{}
+
+\def\SetHoursSep#1{}
+\def\SetHoursExternalSep#1{}
+\def\SetWorkSep#1{}
+
+\def\SetHoursOkt#1{}
+\def\SetHoursExternalOkt#1{}
+\def\SetWorkOkt#1{}
+
+\def\SetHoursNov#1{}
+\def\SetHoursExternalNov#1{}
+\def\SetWorkNov#1{}
+
+\def\SetHoursDez#1{}
+\def\SetHoursExternalDez#1{}
+\def\SetWorkDez#1{}
+
+\input{import.tex}
+
+\newcommand{\months}{Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec}
+
+\begin{document}
+
+\centering
+\begin{tikzpicture}
+	\pgfplotsset{set layers}
+	\begin{axis}[
+		scale only axis,
+		ybar,
+		width=1.2\textwidth,scale=0.73,height=0.55\textheight,
+		enlarge x limits={abs=0.6},
+		xtick={1,2,3,...,12,13.5},
+		xticklabels={Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Total},
+		axis x line*=bottom,
+		axis y line*=left,
+		ymajorgrids=true,
+		xmin=1,xmax=13.5,
+		ymin=0,
+		nodes near coords,
+	]
+		\addplot table [x={Month_idx},y={Total_Hours}] {output.data};
+		\addplot table [x={Month_idx},y={Project_Hours}] {output.data};
+	\end{axis}
+	
+	\begin{axis}[
+		scale only axis,
+		ybar,
+		width=1.2\textwidth,scale=0.73,height=0.55\textheight,
+		enlarge x limits={abs=0.6},
+		xtick={1,2,3,...,13},
+		xticklabels={Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec,Total},
+		axis x line=none,
+		axis y line*=right,
+		xmin=1,xmax=13.5,
+		ymin=0,
+		nodes near coords,
+	]
+		\addplot coordinates {
+			(13.5,\totalhours)
+		};
+		\addplot coordinates {
+			(13.5,\totalhoursproj)
+		};
+	\end{axis}
+
+\end{tikzpicture}
+
+% \vfill
+\vspace{1.5cm}
+
+\centering
+\begin{tikzpicture}
+	\begin{axis}[
+		%symbolic x coords={Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec},
+% 		
+		ybar,
+		width=0.9\textwidth,height=0.4\textheight,
+		%scale=0.73,
+		axis x line*=bottom,%axis y line=box,
+		enlarge x limits={abs=0.6},
+		xtick={1,2,3,...,12},
+		xticklabels={Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec},
+% 		ymin=0,
+		xmin=1,xmax=12,
+		yticklabel={$\pgfmathprintnumber{\tick}$ \%},
+		ymajorgrids=true,
+		nodes near coords,
+	]
+		
+		\addplot table [x={Month_idx},y={Ratio}] {output.data};
+% 		\addplot+ [sharp plot,very thick] coordinates {
+% 			(Jan, \totalratio)
+% 			(Dec, \totalratio)
+% 		} ;
+% 		
+		\path (0.4,\totalratio) coordinate (t1);
+		\path (12.6,\totalratio) coordinate (t2);
+	\end{axis}
+	
+	\draw [very thick, red] (t1) -- (t2);
+	\node [anchor=east,color=red,fill=white,opacity=0.8,text opacity=1] at (t1) {\bfseries \totalratio{} \%};
+\end{tikzpicture}
+
+
+
+\end{document}
