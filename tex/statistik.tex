@@ -56,8 +56,12 @@
 
 \newcommand{\months}{Jan,Feb,Mar,Apr,May,Jun,Jul,Aug,Sep,Oct,Nov,Dec}
 
+\pagestyle{empty}
+\sloppy
+
 \begin{document}
 
+{
 \centering
 \begin{tikzpicture}
 	\pgfplotsset{set layers}
@@ -101,10 +105,17 @@
 	\end{axis}
 
 \end{tikzpicture}
+}
 
-% \vfill
-\vspace{1.5cm}
+\vfill
+% \vspace{0.75cm}
 
+Bei einem Gesamtaufwand von \totalhours{} Stunden wurden \textbf{\totalhoursproj{} von} geplanten \textbf{\totalhoursplanned{}} Stunden am Projekt gearbeitet.
+
+\vfill
+% \vspace{0.75cm}
+
+{
 \centering
 \begin{tikzpicture}
 	\begin{axis}[
@@ -132,12 +143,18 @@
 % 		
 		\path (0.4,\totalratio) coordinate (t1);
 		\path (12.6,\totalratio) coordinate (t2);
+		
+		\path (0.4,\plannedfactor) coordinate (t3);
+		\path (12.6,\plannedfactor) coordinate (t4);
+		
 	\end{axis}
 	
 	\draw [very thick, red] (t1) -- (t2);
 	\node [anchor=east,color=red,fill=white,opacity=0.8,text opacity=1] at (t1) {\bfseries \totalratio{} \%};
+	
+	\draw [very thick, green] (t3) -- (t4);
 \end{tikzpicture}
-
+}
 
 
 \end{document}
