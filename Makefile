@@ -17,4 +17,4 @@ create-datafiles: $(DATAOUT) $(TEXOUT)
 
 $(DATAOUT) $(TEXOUT): $(DATAIN)
 	@-mkdir -p $(dir $(DATAOUT)) $(dir $(TEXOUT))
-	./process.py $(DATAIN) $(DATAOUT) $(TEXOUT)
+	python ./process.py $(DATAIN) $(DATAOUT) $(TEXOUT)
