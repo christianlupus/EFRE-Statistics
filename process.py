@@ -7,8 +7,11 @@ if len(sys.argv) != 4:
 	exit(1)
 
 fin = open(sys.argv[1], 'r')
-datain = eval(fin.read())
+datatotal = eval(fin.read())
 fin.close()
+
+datain = datatotal['times']
+factor = datatotal['config']['factor']
 
 dataout = open(sys.argv[2], 'w+')
 texout = open(sys.argv[3], 'w+')
@@ -57,3 +60,5 @@ ratio = calcRatio(hoursProj, hoursTot)
 texout.write('\\def\\totalhours{%d}\n' % (hoursTot))
 texout.write('\\def\\totalhoursproj{%d}\n' % (hoursProj))
 texout.write('\\def\\totalratio{%4.1f}\n' % (100*ratio))
+texout.write('\\def\\totalhoursplanned{%0.1f}\n' % (hoursTot * factor) )
+texout.write('\\def\\plannedfactor{%f}\n' % (100*factor) )
