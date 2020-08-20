@@ -12,6 +12,7 @@ fin.close()
 
 datain = datatotal['times']
 factor = datatotal['config']['factor']
+carry_hours = datatotal['config']['carry_hours']
 
 dataout = open(sys.argv[2], 'w+')
 texout = open(sys.argv[3], 'w+')
@@ -57,8 +58,13 @@ for m in months:
 		
 ratio = calcRatio(hoursProj, hoursTot)
 
+hoursProjCarried = hoursProj + carry_hours
+ratioCarried = calcRatio(hoursProjCarried, hoursTot)
+
 texout.write('\\def\\totalhours{%d}\n' % (hoursTot))
 texout.write('\\def\\totalhoursproj{%d}\n' % (hoursProj))
 texout.write('\\def\\totalratio{%4.1f}\n' % (100*ratio))
 texout.write('\\def\\totalhoursplanned{%0.1f}\n' % (hoursTot * factor) )
 texout.write('\\def\\plannedfactor{%f}\n' % (100*factor) )
+texout.write('\\def\\totalhoursprojcarried{%d}\n' % (hoursProjCarried))
+texout.write('\\def\\totalratiocarried{%4.1f}\n' % (100*ratioCarried))
