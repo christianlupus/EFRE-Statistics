@@ -111,6 +111,7 @@
 % \vspace{0.75cm}
 
 Bei einem Gesamtaufwand von \totalhours{} Stunden wurden \textbf{\totalhoursproj{} von} geplanten \textbf{\totalhoursplanned{}} Stunden am Projekt gearbeitet.
+Auf das gesamte Projekt entspricht das \textbf{\totalhoursprojcarried{} von \totalhoursplanned{}} entsprechend \textbf{\totalratiocarried{}~\%}.
 
 \vfill
 % \vspace{0.75cm}
@@ -147,10 +148,16 @@ Bei einem Gesamtaufwand von \totalhours{} Stunden wurden \textbf{\totalhoursproj
 		\path (0.4,\plannedfactor) coordinate (t3);
 		\path (12.6,\plannedfactor) coordinate (t4);
 		
+		\path (0.4,\totalratiocarried) coordinate (t5);
+		\path (12.6,\totalratiocarried) coordinate (t6);
+		
 	\end{axis}
 	
 	\draw [very thick, red] (t1) -- (t2);
 	\node [anchor=east,color=red,fill=white,opacity=0.8,text opacity=1] at (t1) {\bfseries \totalratio{} \%};
+	
+	\draw [very thick, red, dashed] (t5) -- (t6);
+	\node [anchor=west,color=red] at (t6) {\bfseries \totalratiocarried{} \%};
 	
 	\draw [very thick, green] (t3) -- (t4);
 \end{tikzpicture}
