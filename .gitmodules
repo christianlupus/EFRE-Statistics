@@ -1,0 +1,3 @@
+[submodule "vorlage"]
+	path = vorlage
+	url = https://github.com/christianlupus/UdS-Stundenzettel.git
