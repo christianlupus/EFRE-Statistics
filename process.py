@@ -11,8 +11,10 @@ datatotal = eval(fin.read())
 fin.close()
 
 datain = datatotal['times']
-factor = datatotal['config']['factor']
-carry_hours = datatotal['config']['carry_hours']
+config = datatotal['config'] if 'config' in datatotal else {}
+
+factor = config['factor'] if 'factor' in config else 1
+carry_hours = config['carry_hours'] if 'carry_hours' in config else 0
 
 dataout = open(sys.argv[2], 'w+')
 texout = open(sys.argv[3], 'w+')
