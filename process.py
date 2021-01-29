@@ -44,9 +44,10 @@ for m in months:
 	
 	data[i] = {}
 	
-	if m in datain:
+	if m in datain and (datain[m]['Hours_total'] > 0 or datain[m]['Hours_project'] > 0):
 		tot = datain[m]['Hours_total']
 		proj = datain[m]['Hours_project']
+		ext = datain[m]['Hours_external'] if "Hours_external" in datain[m] else 0
 		desc = datain[m]['Desc']
 		
 		ratio = calcRatio(proj, tot)
@@ -54,9 +55,9 @@ for m in months:
 		hoursProj += proj
 		hoursTot  += tot
 		
-		dataout.write("%s %d %d %d %d %f\n" % (m, i, proj, tot, (tot-proj), (100*ratio)))
+		dataout.write("%s %d %d %d %d %f\n" % (m, i, proj, tot, ext, (100*ratio)))
 		
-		texout.write('\\SetHours%s{%d}\\SetHoursExternal%s{%d}\\SetWork%s{%s} %% %d total\n' % (m, proj, m, (tot-proj), m, desc, tot))
+		texout.write('\\SetHours%s{%d}\\SetHoursExternal%s{%d}\\SetWork%s{%s} %% %d total\n' % (m, proj, m, ext, m, desc, tot))
 		
 ratio = calcRatio(hoursProj, hoursTot)
 
